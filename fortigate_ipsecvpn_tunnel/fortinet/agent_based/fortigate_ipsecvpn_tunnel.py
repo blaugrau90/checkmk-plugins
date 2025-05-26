@@ -23,6 +23,7 @@ from cmk.agent_based.v2 import (
     State,
     startswith,
 )
+from cmk.plugins.lib.fortinet import DETECT_FORTIGATE
 
 fortigate_ipsecvpn_tunnel_ent_status_map = {"1": "down", "2": "up"}
 
@@ -82,7 +83,7 @@ def check_fortigate_vpn_tunnel(item, section):
 snmp_section_fortigate_vpn = SimpleSNMPSection(
     name="fortigate_vpn",
     parse_function=parse_fortigate_vpn_tunnel,
-    detect=startswith(".1.3.6.1.2.1.1.1.0", "Forti"),
+    detect=DETECT_FORTIGATE,
     fetch=SNMPTree(
         base=".1.3.6.1.4.1.12356.101.12.2.2.1",
         oids=["3", "18", "19", "20"],  # Name, In, Out, Status
